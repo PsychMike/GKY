@@ -1,7 +1,7 @@
 function [Events Parameters Stimuli_sets Block_Export Trial_Export Numtrials] = Demo(Parameters, Stimuli_sets, Trial, Blocknum, Modeflag, Events, Block_Export, Trial_Export, Demodata)
 load('blockvars')
 KbName('UnifyKeyNames');
-if IsOSX | IsLinux; sep = '/'; else sep = '\'; end %slash direction based on OS
+if IsOSX | IsLinux; sep = '\'; else sep = '/'; end %if Mac or
 if strcmp(Modeflag,'InitializeBlock');    
     clear Stimuli_sets    
     %Fixation Cross & Instructions
@@ -44,11 +44,10 @@ if strcmp(Modeflag,'InitializeBlock');
     
     %TV Shows
     tv_shows = 6;
-    tv_dir_name = sprintf('Stimuli%sTV Shows',sep);
-    tv_stim_dir = dir(tv_dir_name);
+    stim_dir = dir('Stimuli/TV Shows');
     stimstruct = CreateStimStruct('image');
-    for x = 1:length(tv_stim_dir)-2;
-        stimstruct.stimuli{x} = sprintf('TV Shows%s%s',sep,tv_stim_dir(x+2).name);
+    for x = 1:length(stim_dir)-2;
+        stimstruct.stimuli{x} = sprintf('TV Shows/%s',stim_dir(x+2).name);
     end
     stimstruct.stimsize = 0.5;
     Stimuli_sets(tv_shows) = Preparestimuli(Parameters,stimstruct);
