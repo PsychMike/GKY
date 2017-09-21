@@ -16,7 +16,7 @@ if strcmp(Modeflag,'InitializeBlock');
     %Prompts
     prompts = 2;
     stimstruct = CreateStimStruct('text');
-    stimstruct.stimuli = {'Rate this image from 1-7:','Your partner rated this image:','Rate how close you feel to your partner','Here''s your partner''s rating of closeness to you:'};
+    stimstruct.stimuli = {'Rate this image from 1-7:','Your partner rated this image:','Rate how close you feel to your partner from 1-7','Here''s your partner''s rating of closeness to you:'};
     stimstruct.wrapat = 70;
     stimstruct.stimsize = 50;
     Stimuli_sets(prompts) = Preparestimuli(Parameters,stimstruct);
@@ -96,8 +96,10 @@ elseif strcmp(Modeflag,'InitializeTrial');
     responsestruct.allowbackspace = 1;
     responsestruct.waitforenter = 1;
     allowed = [];
-    for number = '1234567'
-        allowed = [allowed KbName(number)];
+    %     for number = '1234567'
+     number = {'1!','2@','3#','4$','5%','6^','7&','1','2','3','4','5','6','7'};
+     for i=1:length(number)
+        allowed = [allowed KbName(number{i})];
     end
     responsestruct.allowedchars = allowed;
     [Events,item_rate] = newevent_keyboard(Events,start_time,responsestruct);
@@ -106,7 +108,7 @@ elseif strcmp(Modeflag,'InitializeTrial');
     
     Events = newevent_show_stimulus(Events,prompts,2,locx,top,partner_rate_time,'screenshot_no','clear_yes'); %your partner's item rating
     Events = newevent_show_stimulus(Events,partner_rating,partner_item_rate,locx,bottom,partner_rate_time,'screenshot_no','clear_no'); %rating number
-    Events = newevent_show_stimulus(Events,partner,1,partner_locx,partner_locy,partner_rate_time,'screenshot_no','clear_no'); %partner pic
+%     Events = newevent_show_stimulus(Events,partner,1,partner_locx,partner_locy,partner_rate_time,'screenshot_no','clear_no'); %partner pic
     Events = newevent_show_stimulus(Events,tv_shows,Trial,locx,locy,partner_rate_time,'screenshot_no','clear_no'); %image
     
     Events = newevent_show_stimulus(Events,prompts,3,locx,locy,closeness_time,'screenshot_no','clear_yes'); %how close do you feel to your partner?
@@ -121,17 +123,19 @@ elseif strcmp(Modeflag,'InitializeTrial');
     responsestruct.allowbackspace = 1;
     responsestruct.waitforenter = 1;
     allowed = [];
-    for number = '1234567'
-        allowed = [allowed KbName(number)];
+    %     for number = '1234567'
+     number = {'1!','2@','3#','4$','5%','6^','7&','1','2','3','4','5','6','7'};
+     for i=1:length(number)
+        allowed = [allowed KbName(number{i})];
     end
-    responsestruct.allowedchars = allowed;
+    responsestruct.allowedchars = allowed
     [Events,partner_rate] = newevent_keyboard(Events,closeness_time,responsestruct);
     
     partner_closeness_rate = randi(7); %random for now
     
     Events = newevent_show_stimulus(Events,prompts,4,locx,top,partner_closeness_time,'screenshot_no','clear_yes'); %how close your partner feels to you
     Events = newevent_show_stimulus(Events,partner_rating,partner_closeness_rate,locx,locy,partner_closeness_time,'screenshot_no','clear_no'); %rating number
-    Events = newevent_show_stimulus(Events,partner,1,partner_locx,partner_locy,partner_closeness_time,'screenshot_no','clear_no'); %partner pic
+%     Events = newevent_show_stimulus(Events,partner,1,partner_locx,partner_locy,partner_closeness_time,'screenshot_no','clear_no'); %partner pic
     
     %Ends trial
     Events = newevent_end_trial(Events,end_time);
